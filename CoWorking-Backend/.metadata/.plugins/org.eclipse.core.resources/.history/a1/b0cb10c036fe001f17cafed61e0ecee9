@@ -1,0 +1,86 @@
+package com.example.demo.CoWorkingSpace.spaceowner;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+import com.example.demo.CoWorkingSpace.ResourceNotFoundException;
+
+public interface WorkspaceService {
+    
+    /**
+     * Create a new workspace within a coworking space
+     * 
+     * @param coworkingSpaceId The coworking space ID
+     * @param request The workspace details
+     * @return The created workspace DTO
+     * @throws ResourceNotFoundException if coworking space not found
+     */
+    WorkspaceDTO createWorkspace(Long coworkingSpaceId, CreateWorkspaceRequest request) throws ResourceNotFoundException;
+    
+    /**
+     * Get all workspaces for a coworking space
+     * 
+     * @param coworkingSpaceId The coworking space ID
+     * @return List of workspace DTOs
+     * @throws ResourceNotFoundException if coworking space not found
+     */
+    List<WorkspaceDTO> getAllWorkspacesByCoworkingSpace(Long coworkingSpaceId) throws ResourceNotFoundException;
+    
+    /**
+     * Get all available workspaces for a coworking space
+     * 
+     * @param coworkingSpaceId The coworking space ID
+     * @return List of available workspace DTOs
+     * @throws ResourceNotFoundException if coworking space not found
+     */
+    List<WorkspaceDTO> getAvailableWorkspaces(Long coworkingSpaceId) throws ResourceNotFoundException;
+    
+    /**
+     * Get available workspaces for a specific time period
+     * 
+     * @param coworkingSpaceId The coworking space ID
+     * @param startTime Start time of desired period
+     * @param endTime End time of desired period
+     * @return List of available workspace DTOs for the specified time period
+     * @throws ResourceNotFoundException if coworking space not found
+     */
+    List<WorkspaceDTO> getAvailableWorkspacesForPeriod(Long coworkingSpaceId, LocalDateTime startTime, LocalDateTime endTime) 
+            throws ResourceNotFoundException;
+    
+    /**
+     * Get workspace by ID
+     * 
+     * @param id The workspace ID
+     * @return The workspace DTO
+     * @throws ResourceNotFoundException if not found
+     */
+    WorkspaceDTO getWorkspaceById(Long id) throws ResourceNotFoundException;
+    
+    /**
+     * Update a workspace
+     * 
+     * @param id The workspace ID
+     * @param request The updated details
+     * @return The updated workspace DTO
+     * @throws ResourceNotFoundException if not found
+     */
+    WorkspaceDTO updateWorkspace(Long id, CreateWorkspaceRequest request) throws ResourceNotFoundException;
+    
+    /**
+     * Update workspace availability
+     * 
+     * @param id The workspace ID
+     * @param available New availability status
+     * @return The updated workspace DTO
+     * @throws ResourceNotFoundException if not found
+     */
+    WorkspaceDTO updateWorkspaceAvailability(Long id, Boolean available) throws ResourceNotFoundException;
+    
+    /**
+     * Delete a workspace
+     * 
+     * @param id The workspace ID
+     * @throws ResourceNotFoundException if not found
+     */
+    void deleteWorkspace(Long id) throws ResourceNotFoundException;
+}

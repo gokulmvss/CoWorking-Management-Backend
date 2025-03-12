@@ -1,0 +1,66 @@
+package com.example.demo.CoWorkingSpace.spaceowner;
+
+import java.util.List;
+
+public interface CoworkingSpaceService {
+    
+    /**
+     * Create a new coworking space
+     * 
+     * @param request The coworking space details
+     * @return The created coworking space DTO
+     */
+    CoworkingSpaceDTO createCoworkingSpace(CreateCoWorkingSpaceRequest request);
+    
+    /**
+     * Get all active coworking spaces
+     * 
+     * @return List of coworking space DTOs
+     */
+    List<CoworkingSpaceDTO> getAllCoworkingSpaces();
+    
+    /**
+     * Get coworking space by ID
+     * 
+     * @param id The coworking space ID
+     * @return The coworking space DTO
+     * @throws ResourceNotFoundException if not found
+     */
+    CoworkingSpaceDTO getCoworkingSpaceById(Long id);
+    
+    /**
+     * Get coworking space with all its workspaces
+     * 
+     * @param id The coworking space ID
+     * @return The coworking space DTO with workspaces
+     * @throws ResourceNotFoundException if not found
+     */
+    CoworkingSpaceDTO getCoworkingSpaceWithWorkspaces(Long id) ;
+    
+    /**
+     * Update a coworking space
+     * 
+     * @param id The coworking space ID
+     * @param request The updated details
+     * @return The updated coworking space DTO
+     * @throws ResourceNotFoundException if not found
+     */
+    CoworkingSpaceDTO updateCoworkingSpace(Long id, CreateCoWorkingSpaceRequest request) ;
+    
+    /**
+     * Deactivate a coworking space
+     * 
+     * @param id The coworking space ID
+     * @throws ResourceNotFoundException if not found
+     */
+    void deactivateCoworkingSpace(Long id);
+    
+    /**
+     * Get coworking space entity by ID (for internal service use)
+     * 
+     * @param id The coworking space ID
+     * @return The coworking space entity
+     * @throws ResourceNotFoundException if not found
+     */
+    CoworkingSpace getCoworkingSpaceEntityById(Long id) ;
+}

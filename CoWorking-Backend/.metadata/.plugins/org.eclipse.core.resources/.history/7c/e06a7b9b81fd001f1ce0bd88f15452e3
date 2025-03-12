@@ -1,0 +1,23 @@
+package com.example.demo.CoWorkingSpace.spaceowner;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class CoworkingSpaceDTO {
+    private Long id;
+    private String name;
+    private String address;
+    private String contactEmail;
+    private String contactPhone;
+    private String description;
+    private Boolean active;
+    private List<WorkspaceDTO> workspaces;
+}

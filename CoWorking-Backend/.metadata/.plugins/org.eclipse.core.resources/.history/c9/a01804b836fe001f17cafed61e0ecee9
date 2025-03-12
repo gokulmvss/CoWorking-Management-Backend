@@ -1,0 +1,170 @@
+package com.example.demo.CoWorkingSpace;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Table(name = "workspaces")
+@EntityListeners(AuditingEntityListener.class)
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+
+public class Workspace {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @NotBlank
+    @Size(max = 100)
+    private String name;
+
+    @Size(max = 50)
+    private String type; // desk, meeting room, office, etc.
+
+    @NotNull
+    @Positive
+    private Integer capacity;
+
+    @Size(max = 100)
+    private String location; // floor, section, etc.
+
+    @NotNull
+    @Positive
+    private Double pricePerHour;
+
+    private Boolean available = true;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "coworking_space_id", nullable = false)
+    private CoworkingSpace coworkingSpace;
+
+    @ManyToMany(mappedBy = "workspaces")
+    private Set<Booking> bookings = new HashSet<>();
+
+    @OneToMany(mappedBy = "workspace")
+    private Set<TableBooking> tableBookings = new HashSet<>();
+
+    @CreatedDate
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public Integer getCapacity() {
+		return capacity;
+	}
+
+	public void setCapacity(Integer capacity) {
+		this.capacity = capacity;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	public Double getPricePerHour() {
+		return pricePerHour;
+	}
+
+	public void setPricePerHour(Double pricePerHour) {
+		this.pricePerHour = pricePerHour;
+	}
+
+	public Boolean getAvailable() {
+		return available;
+	}
+
+	public void setAvailable(Boolean available) {
+		this.available = available;
+	}
+
+	public CoworkingSpace getCoworkingSpace() {
+		return coworkingSpace;
+	}
+
+	public void setCoworkingSpace(CoworkingSpace coworkingSpace) {
+		this.coworkingSpace = coworkingSpace;
+	}
+
+	public Set<Booking> getBookings() {
+		return bookings;
+	}
+
+	public void setBookings(Set<Booking> bookings) {
+		this.bookings = bookings;
+	}
+
+	public Set<TableBooking> getTableBookings() {
+		return tableBookings;
+	}
+
+	public void setTableBookings(Set<TableBooking> tableBookings) {
+		this.tableBookings = tableBookings;
+	}
+
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public LocalDateTime getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(LocalDateTime updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	
+}

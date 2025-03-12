@@ -1,0 +1,7 @@
+package com.example.demo.CoWorkingSpace;
+
+public enum UserRole {
+	ADMIN,           // Coworking space admin
+    COMPANY_ADMIN,   // Company representative
+    EMPLOYEE         // Company employee
+}

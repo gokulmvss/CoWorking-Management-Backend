@@ -1,0 +1,107 @@
+package com.example.demo.CoWorkingSpace.spaceowner;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+
+public class WorkspaceDTO {
+	 private Long id;
+	    private String name;
+	    private String type;
+	    private Integer capacity;
+	    private String location;
+	    private Double pricePerHour;
+	    private Boolean available;
+	    private String coworkingSpaceName;
+	    private Long coworkingSpaceId;
+	    
+	 // Static method to get a new builder instance
+	    public static WorkspaceDTOBuilder builder() {
+	        return new WorkspaceDTOBuilder();
+	    }
+	    
+	    // Static inner Builder class
+	    public static class WorkspaceDTOBuilder {
+	        private Long id;
+	        private String name;
+	        private String type;
+	        private Integer capacity;
+	        private String location;
+	        private Double pricePerHour;
+	        private Boolean available;
+	        private String coworkingSpaceName;
+	        private Long coworkingSpaceId;
+	        
+	        // Private constructor for builder
+	        private WorkspaceDTOBuilder() {
+	        }
+	        
+	        // Builder methods for each property
+	        public WorkspaceDTOBuilder id(Long id) {
+	            this.id = id;
+	            return this;
+	        }
+	        
+	        public WorkspaceDTOBuilder name(String name) {
+	            this.name = name;
+	            return this;
+	        }
+	        
+	        public WorkspaceDTOBuilder type(String type) {
+	            this.type = type;
+	            return this;
+	        }
+	        
+	        public WorkspaceDTOBuilder capacity(Integer capacity) {
+	            this.capacity = capacity;
+	            return this;
+	        }
+	        
+	        public WorkspaceDTOBuilder location(String location) {
+	            this.location = location;
+	            return this;
+	        }
+	        
+	        public WorkspaceDTOBuilder pricePerHour(Double pricePerHour) {
+	            this.pricePerHour = pricePerHour;
+	            return this;
+	        }
+	        
+	        public WorkspaceDTOBuilder available(Boolean available) {
+	            this.available = available;
+	            return this;
+	        }
+	        
+	        public WorkspaceDTOBuilder coworkingSpaceName(String coworkingSpaceName) {
+	            this.coworkingSpaceName = coworkingSpaceName;
+	            return this;
+	        }
+	        
+	        public WorkspaceDTOBuilder coworkingSpaceId(Long coworkingSpaceId) {
+	            this.coworkingSpaceId = coworkingSpaceId;
+	            return this;
+	        }
+	        
+	        // Build method to create the WorkspaceDTO instance
+	        public WorkspaceDTO build() {
+	            WorkspaceDTO workspaceDTO = new WorkspaceDTO();
+	            workspaceDTO.id = this.id;
+	            workspaceDTO.name = this.name;
+	            workspaceDTO.type = this.type;
+	            workspaceDTO.capacity = this.capacity;
+	            workspaceDTO.location = this.location;
+	            workspaceDTO.pricePerHour = this.pricePerHour;
+	            workspaceDTO.available = this.available;
+	            workspaceDTO.coworkingSpaceName = this.coworkingSpaceName;
+	            workspaceDTO.coworkingSpaceId = this.coworkingSpaceId;
+	            return workspaceDTO;
+	        }
+	    }
+			
+}
+

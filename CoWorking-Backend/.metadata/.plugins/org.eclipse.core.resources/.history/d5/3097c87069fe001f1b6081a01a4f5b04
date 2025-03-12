@@ -1,0 +1,91 @@
+package com.example.demo.service.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.example.demo.Repository.WorkspaceRepository;
+import com.example.demo.controller.dto.ResourceNotFoundException;
+import com.example.demo.controller.dto.request.CreateWorkspaceRequest;
+import com.example.demo.controller.dto.response.WorkspaceDTO;
+import com.example.demo.entity.CoworkingSpace;
+import com.example.demo.entity.Workspace;
+import com.example.demo.service.CoworkingSpaceService;
+import com.example.demo.service.WorkspaceService;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+public class WorkspaceServiceImpl implements WorkspaceService {
+
+    private final WorkspaceRepository workspaceRepository;
+    private final CoworkingSpaceService coworkingSpaceService;
+
+    @Autowired
+    public WorkspaceServiceImpl(WorkspaceRepository workspaceRepository, CoworkingSpaceService coworkingSpaceService) {
+        this.workspaceRepository = workspaceRepository;
+        this.coworkingSpaceService = coworkingSpaceService;
+    }
+
+    @Override
+    @Transactional
+    public WorkspaceDTO createWorkspace(Long coworkingSpaceId, CreateWorkspaceRequest request) throws ResourceNotFoundException {
+        // Get the coworking space
+        CoworkingSpace coworkingSpace = coworkingSpaceService.getCoworkingSpaceEntityById(coworkingSpaceId);
+        
+        // Create the workspace
+        Workspace workspace = new Workspace();
+        workspace.setName(request.getName());
+        workspace.setType(request.getType());
+        workspace.setCapacity(request.getCapacity());
+        workspace.setLocation(request.getLocation());
+        workspace.setPricePerHour(request.getPricePerHour());
+        workspace.setAvailable(request.getAvailable());
+        workspace.setCoworkingSpace(coworkingSpace);
+        
+        Workspace savedWorkspace = workspaceRepository.save(workspace);
+        
+        return mapToDTO(savedWorkspace);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<WorkspaceDTO> getAllWorkspacesByCoworkingSpace(Long coworkingSpaceId) throws ResourceNotFoundException {
+        // Verify the coworking space exists
+        coworkingSpaceService.getCoworkingSpaceEntityById(coworkingSpaceId);
+        
+        // Get all workspaces for the coworking space
+        return workspaceRepository.findByCoworkingSpaceId(coworkingSpaceId)
+                .stream()
+                .map(this::mapToDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<WorkspaceDTO> getAvailableWorkspaces(Long coworkingSpaceId) throws ResourceNotFoundException {
+        // Verify the coworking space exists
+        coworkingSpaceService.getCoworkingSpaceEntityById(coworkingSpaceId);
+        
+        // Get all available workspaces for the coworking space
+        return workspaceRepository.findByCoworkingSpaceIdAndAvailableTrue(coworkingSpaceId)
+                .stream()
+                .map(this::mapToDTO)
+                .collect(Collectors.toList());
+    }
+    
+    private WorkspaceDTO mapToDTO(Workspace workspace) {
+        return WorkspaceDTO.builder()
+                .id(workspace.getId())
+                .name(workspace.getName())
+                .type(workspace.getType())
+                .capacity(workspace.getCapacity())
+                .location(workspace.getLocation())
+                .pricePerSeatPerHour(workspace.getPricePerHour())
+                .available(workspace.getAvailable())
+                .coworkingSpaceName(workspace.getCoworkingSpace().getName())
+                .coworkingSpaceId(workspace.getCoworkingSpace().getId())
+                .build();
+    }
+}

@@ -1,0 +1,10 @@
+package com.example.demo.CoWorkingSpace;
+
+
+public enum PaymentStatus {
+    PENDING,       // Payment is initiated but not completed
+    PROCESSING,    // Payment is being processed
+    COMPLETED,     // Payment was successful
+    FAILED,        // Payment failed
+    REFUNDED       // Payment was refunded
+}

@@ -1,0 +1,8 @@
+package com.example.demo.CoWorkingSpace;
+
+public enum ComplaintStatus {
+	SUBMITTED,  // Initial state when a complaint is created
+    IN_PROGRESS, // Complaint is being worked on
+    RESOLVED,   // Complaint has been resolved
+    CLOSED      // Complaint has been closed (possibly without resolution)
+}

@@ -1,0 +1,9 @@
+package com.example.demo.CoWorkingSpace;
+
+public enum InvoiceStatus {
+    DRAFT,     // Initial state when an invoice is created
+    SENT,      // Invoice sent to the company
+    PAID,      // Invoice has been paid
+    OVERDUE,   // Payment deadline has passed
+    CANCELED   // Invoice has been canceled
+}

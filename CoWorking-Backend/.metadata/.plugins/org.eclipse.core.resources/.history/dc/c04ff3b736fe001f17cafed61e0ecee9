@@ -1,0 +1,10 @@
+package com.example.demo.CoWorkingSpace;
+
+public enum BookingStatus {
+	PENDING,    // Initial state when a booking is created
+    APPROVED,   // Admin approved the booking
+    REJECTED,   // Admin rejected the booking
+    PAID,       // Payment completed
+    CANCELED,   // Booking was canceled
+    COMPLETED   // Booking period is over
+}

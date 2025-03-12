@@ -1,0 +1,149 @@
+package com.example.demo.CoWorkingSpace.spaceowner;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.example.demo.CoWorkingSpace.CoworkingSpace;
+import com.example.demo.CoWorkingSpace.ResourceNotFoundException;
+import com.example.demo.CoWorkingSpace.Workspace;
+
+import jakarta.transaction.Transactional;
+
+public class WorkspaceServiceImpl implements WorkspaceService{
+	
+	private final WorkspaceRepository workspaceRepository;
+    private final CoworkingSpaceService coworkingSpaceService;
+
+    @Autowired
+    public WorkspaceServiceImpl(WorkspaceRepository workspaceRepository, CoworkingSpaceService coworkingSpaceService) {
+        this.workspaceRepository = workspaceRepository;
+        this.coworkingSpaceService = coworkingSpaceService;
+    }
+    
+	@Override
+	public WorkspaceDTO createWorkspace(Long coworkingSpaceId, CreateWorkspaceRequest request)
+			throws ResourceNotFoundException {
+		CoworkingSpace coworkingSpace = coworkingSpaceService.getCoworkingSpaceEntityById(coworkingSpaceId);
+        
+        // Create the workspace
+        Workspace workspace = new Workspace();
+        workspace.setName(request.getName());
+        workspace.setType(request.getType());
+        workspace.setCapacity(request.getCapacity());
+        workspace.setLocation(request.getLocation());
+        workspace.setPricePerHour(request.getPricePerHour());
+        workspace.setAvailable(request.getAvailable());
+        workspace.setCoworkingSpace(coworkingSpace);
+        
+        Workspace savedWorkspace = workspaceRepository.save(workspace);
+        
+        return mapToDTO(savedWorkspace);
+	}
+
+	@Override
+//    @Transactional(readOnly = true)
+    public List<WorkspaceDTO> getAllWorkspacesByCoworkingSpace(Long coworkingSpaceId) throws ResourceNotFoundException {
+        // Verify the coworking space exists
+        coworkingSpaceService.getCoworkingSpaceEntityById(coworkingSpaceId);
+        
+        // Get all workspaces for the coworking space
+        return workspaceRepository.findByCoworkingSpaceId(coworkingSpaceId)
+                .stream()
+                .map(this::mapToDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+//    @Transactional(readOnly = true)
+    public List<WorkspaceDTO> getAvailableWorkspaces(Long coworkingSpaceId) throws ResourceNotFoundException {
+        // Verify the coworking space exists
+        coworkingSpaceService.getCoworkingSpaceEntityById(coworkingSpaceId);
+        
+        // Get all available workspaces for the coworking space
+        return workspaceRepository.findByCoworkingSpaceIdAndAvailableTrue(coworkingSpaceId)
+                .stream()
+                .map(this::mapToDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+//    @Transactional(readOnly = true)
+    public List<WorkspaceDTO> getAvailableWorkspacesForPeriod(Long coworkingSpaceId, LocalDateTime startTime, LocalDateTime endTime) 
+            throws ResourceNotFoundException {
+        // Verify the coworking space exists
+        coworkingSpaceService.getCoworkingSpaceEntityById(coworkingSpaceId);
+        
+        // Get all available workspaces for the coworking space and time period
+        return workspaceRepository.findAvailableWorkspaces(coworkingSpaceId, startTime, endTime)
+                .stream()
+                .map(this::mapToDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+//    @Transactional(readOnly = true)
+    public WorkspaceDTO getWorkspaceById(Long id) throws ResourceNotFoundException {
+        Workspace workspace = workspaceRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Workspace not found with ID: " + id));
+        
+        workspace.setName(request.getName());
+        workspace.setType(request.getType());
+        workspace.setCapacity(request.getCapacity());
+        workspace.setLocation(request.getLocation());
+        workspace.setPricePerHour(request.getPricePerHour());
+        workspace.setAvailable(request.getAvailable());
+        
+        Workspace updatedWorkspace = workspaceRepository.save(workspace);
+        
+        return mapToDTO(updatedWorkspace);
+    }
+
+    @Override
+    @Transactional
+    public WorkspaceDTO updateWorkspaceAvailability(Long id, Boolean available) throws ResourceNotFoundException {
+        Workspace workspace = workspaceRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Workspace not found with ID: " + id));
+        
+        workspace.setAvailable(available);
+        Workspace updatedWorkspace = workspaceRepository.save(workspace);
+        
+        return mapToDTO(updatedWorkspace);
+    }
+
+    @Override
+    @Transactional
+    public void deleteWorkspace(Long id) throws ResourceNotFoundException {
+        if (!workspaceRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Workspace not found with ID: " + id);
+        }
+        
+        workspaceRepository.deleteById(id);
+    }
+    
+    private WorkspaceDTO mapToDTO(Workspace workspace) {
+        return WorkspaceDTO.builder()
+                .id(workspace.getId())
+                .name(workspace.getName())
+                .type(workspace.getType())
+                .capacity(workspace.getCapacity())
+                .location(workspace.getLocation())
+                .pricePerHour(workspace.getPricePerHour())
+                .available(workspace.getAvailable())
+                .coworkingSpaceName(workspace.getCoworkingSpace().getName())
+                .coworkingSpaceId(workspace.getCoworkingSpace().getId())
+                .build();
+    }.orElseThrow(() -> new ResourceNotFoundException("Workspace not found with ID: " + id));
+        
+        return mapToDTO(workspace);
+    }
+
+    @Override
+    @Transactional
+    public WorkspaceDTO updateWorkspace(Long id, CreateWorkspaceRequest request) throws ResourceNotFoundException {
+        Workspace workspace = workspaceRepository.findById(id)
+                
+
+}

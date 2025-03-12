@@ -1,0 +1,58 @@
+package com.example.demo.CoWorkingSpace;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "payments")
+@EntityListeners(AuditingEntityListener.class)
+
+public class Payment {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+    @NotNull
+    @Positive
+    private Double amount;
+    
+    private LocalDateTime paymentDate;
+    
+    @Size(max = 100)
+    private String transactionId;
+    
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20)
+    private PaymentStatus status = PaymentStatus.PENDING;
+    
+    @Size(max = 50)
+    private String paymentMethod;
+    
+    @Size(max = 500)
+    private String notes;
+    
+    @OneToOne
+    @JoinColumn(name = "booking_id", referencedColumnName = "id")
+    private Booking booking;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "company_id", nullable = false)
+    private Company company;
+    
+    @CreatedDate
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+    
+    @LastModifiedDate
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+}

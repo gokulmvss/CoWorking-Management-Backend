@@ -1,0 +1,86 @@
+package com.example.demo.CoWorkingSpace.spaceowner;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.example.demo.CoWorkingSpace.CoworkingSpace;
+import com.example.demo.CoWorkingSpace.ResourceNotFoundException;
+import com.example.demo.CoWorkingSpace.Workspace;
+
+public class WorkspaceServiceImpl implements WorkspaceService{
+	
+	private final WorkspaceRepository workspaceRepository;
+    private final CoworkingSpaceService coworkingSpaceService;
+
+    @Autowired
+    public WorkspaceServiceImpl(WorkspaceRepository workspaceRepository, CoworkingSpaceService coworkingSpaceService) {
+        this.workspaceRepository = workspaceRepository;
+        this.coworkingSpaceService = coworkingSpaceService;
+    }
+    
+	@Override
+	public WorkspaceDTO createWorkspace(Long coworkingSpaceId, CreateWorkspaceRequest request)
+			throws ResourceNotFoundException {
+CoworkingSpace coworkingSpace = coworkingSpaceService.getCoworkingSpaceEntityById(coworkingSpaceId);
+        
+        // Create the workspace
+        Workspace workspace = new Workspace();
+        workspace.setName(request.getName());
+        workspace.setType(request.getType());
+        workspace.setCapacity(request.getCapacity());
+        workspace.setLocation(request.getLocation());
+        workspace.setPricePerHour(request.getPricePerHour());
+        workspace.setAvailable(request.getAvailable());
+        workspace.setCoworkingSpace(coworkingSpace);
+        
+        Workspace savedWorkspace = workspaceRepository.save(workspace);
+        
+        return mapToDTO(savedWorkspace);
+	}
+
+	@Override
+	public List<WorkspaceDTO> getAllWorkspacesByCoworkingSpace(Long coworkingSpaceId) throws ResourceNotFoundException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<WorkspaceDTO> getAvailableWorkspaces(Long coworkingSpaceId) throws ResourceNotFoundException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<WorkspaceDTO> getAvailableWorkspacesForPeriod(Long coworkingSpaceId, LocalDateTime startTime,
+			LocalDateTime endTime) throws ResourceNotFoundException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public WorkspaceDTO getWorkspaceById(Long id) throws ResourceNotFoundException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public WorkspaceDTO updateWorkspace(Long id, CreateWorkspaceRequest request) throws ResourceNotFoundException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public WorkspaceDTO updateWorkspaceAvailability(Long id, Boolean available) throws ResourceNotFoundException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deleteWorkspace(Long id) throws ResourceNotFoundException {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

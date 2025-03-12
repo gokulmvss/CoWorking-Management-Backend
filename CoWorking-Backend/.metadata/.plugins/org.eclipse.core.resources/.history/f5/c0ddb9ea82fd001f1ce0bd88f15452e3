@@ -1,0 +1,25 @@
+package com.example.demo.CoWorkingSpace.spaceowner;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Repository
+public interface WorkspaceRepository extends JpaRepository<Workspace, Long> {
+    List<Workspace> findByCoworkingSpaceId(Long coworkingSpaceId);
+    
+    List<Workspace> findByCoworkingSpaceIdAndAvailableTrue(Long coworkingSpaceId);
+    
+    @Query("SELECT w FROM Workspace w WHERE w.coworkingSpace.id = :coworkingSpaceId " +
+           "AND w.available = true " +
+           "AND w.id NOT IN (" +
+           "    SELECT ws.id FROM Workspace ws " +
+           "    JOIN ws.bookings b " +
+           "    WHERE (b.startTime <= :endTime AND b.endTime >= :startTime) " +
+           "    AND b.status IN ('APPROVED', 'PAID')" +
+           ")")
+    List<Workspace> findAvailableWorkspaces(Long coworkingSpaceId, LocalDateTime startTime, LocalDateTime endTime);
+}

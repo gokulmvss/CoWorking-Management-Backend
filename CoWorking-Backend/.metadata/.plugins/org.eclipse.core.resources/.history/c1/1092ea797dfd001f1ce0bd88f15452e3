@@ -1,0 +1,62 @@
+package com.example.demo.CoWorkingSpace;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "complaints")
+@EntityListeners(AuditingEntityListener.class)
+
+public class Complaint {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+    @NotBlank
+    @Size(max = 100)
+    private String title;
+    
+    @NotBlank
+    @Size(max = 1000)
+    private String description;
+    
+    @Column(nullable = false)
+    private LocalDateTime submissionDate;
+    
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20)
+    private ComplaintStatus status = ComplaintStatus.SUBMITTED;
+    
+    @Size(max = 1000)
+    private String resolution;
+    
+    private LocalDateTime resolutionDate;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "coworking_space_id", nullable = false)
+    private CoworkingSpace coworkingSpace;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "company_id")
+    private Company company;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "employee_id")
+    private Employee employee;
+    
+    @CreatedDate
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+    
+    @LastModifiedDate
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+}

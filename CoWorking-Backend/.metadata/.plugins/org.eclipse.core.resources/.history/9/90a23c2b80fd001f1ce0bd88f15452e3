@@ -1,0 +1,94 @@
+package com.example.demo.CoWorkingSpace.spaceowner;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+
+public class WorkspaceDTO {
+	 private Long id;
+	    private String name;
+	    private String type;
+	    private Integer capacity;
+	    private String location;
+	    private Double pricePerHour;
+	    private Boolean available;
+	    private String coworkingSpaceName;
+	    private Long coworkingSpaceId;
+		public WorkspaceDTO() {
+			super();
+		}
+		public Long getId() {
+			return id;
+		}
+		public void setId(Long id) {
+			this.id = id;
+		}
+		public String getName() {
+			return name;
+		}
+		public void setName(String name) {
+			this.name = name;
+		}
+		public WorkspaceDTO(Long id, String name, String type, Integer capacity, String location, Double pricePerHour,
+				Boolean available, String coworkingSpaceName, Long coworkingSpaceId) {
+			super();
+			this.id = id;
+			this.name = name;
+			this.type = type;
+			this.capacity = capacity;
+			this.location = location;
+			this.pricePerHour = pricePerHour;
+			this.available = available;
+			this.coworkingSpaceName = coworkingSpaceName;
+			this.coworkingSpaceId = coworkingSpaceId;
+		}
+		public String getType() {
+			return type;
+		}
+		public void setType(String type) {
+			this.type = type;
+		}
+		public Integer getCapacity() {
+			return capacity;
+		}
+		public void setCapacity(Integer capacity) {
+			this.capacity = capacity;
+		}
+		public String getLocation() {
+			return location;
+		}
+		public void setLocation(String location) {
+			this.location = location;
+		}
+		public Double getPricePerHour() {
+			return pricePerHour;
+		}
+		public void setPricePerHour(Double pricePerHour) {
+			this.pricePerHour = pricePerHour;
+		}
+		public Boolean getAvailable() {
+			return available;
+		}
+		public void setAvailable(Boolean available) {
+			this.available = available;
+		}
+		public String getCoworkingSpaceName() {
+			return coworkingSpaceName;
+		}
+		public void setCoworkingSpaceName(String coworkingSpaceName) {
+			this.coworkingSpaceName = coworkingSpaceName;
+		}
+		public Long getCoworkingSpaceId() {
+			return coworkingSpaceId;
+		}
+		public void setCoworkingSpaceId(Long coworkingSpaceId) {
+			this.coworkingSpaceId = coworkingSpaceId;
+		}
+		
+}
+

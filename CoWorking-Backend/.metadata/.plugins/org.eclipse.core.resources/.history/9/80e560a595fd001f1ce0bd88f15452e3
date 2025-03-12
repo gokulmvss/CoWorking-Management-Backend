@@ -1,0 +1,92 @@
+package com.example.demo.CoWorkingSpace.spaceowner;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class CoworkingSpaceDTO {
+    private Long id;
+    private String name;
+    private String address;
+    private String contactEmail;
+    private String contactPhone;
+    private String description;
+    private Boolean active;
+    private List<WorkspaceDTO> workspaces;
+    
+    public static CoworkingSpaceBuilder builder() {
+        return new CoworkingSpaceBuilder();
+    }
+    
+    // Builder pattern implementation if not using Lombok @Builder
+    public static class CoworkingSpaceBuilder {
+        private Long id;
+        private String name;
+        private String address;
+        private String contactEmail;
+        private String contactPhone;
+        private String description;
+        private Boolean active;
+        private List<WorkspaceDTO> workspaces;
+        
+        public CoworkingSpaceBuilder id(Long id) {
+            this.id = id;
+            return this;
+        }
+        
+        public CoworkingSpaceBuilder name(String name) {
+            this.name = name;
+            return this;
+        }
+        
+        public CoworkingSpaceBuilder address(String address) {
+            this.address = address;
+            return this;
+        }
+        
+        public CoworkingSpaceBuilder contactEmail(String contactEmail) {
+            this.contactEmail = contactEmail;
+            return this;
+        }
+        
+        public CoworkingSpaceBuilder contactPhone(String contactPhone) {
+            this.contactPhone = contactPhone;
+            return this;
+        }
+        
+        public CoworkingSpaceBuilder description(String description) {
+            this.description = description;
+            return this;
+        }
+        
+        public CoworkingSpaceBuilder active(Boolean active) {
+            this.active = active;
+            return this;
+        }
+        
+        public CoworkingSpaceBuilder workspaces(List<WorkspaceDTO> workspaces) {
+            this.workspaces = workspaces;
+            return this;
+        }
+        
+        public CoworkingSpaceDTO build() {
+            CoworkingSpaceDTO dto = new CoworkingSpaceDTO();
+            dto.id = this.id;
+            dto.name = this.name;
+            dto.address = this.address;
+            dto.contactEmail = this.contactEmail;
+            dto.contactPhone = this.contactPhone;
+            dto.description = this.description;
+            dto.active = this.active;
+            dto.workspaces = this.workspaces;
+            return dto;
+        }
+    }
+}
