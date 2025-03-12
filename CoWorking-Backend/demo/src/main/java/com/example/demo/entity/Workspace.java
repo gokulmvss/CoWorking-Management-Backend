@@ -11,6 +11,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -18,7 +20,7 @@ import java.util.Objects;
 @EntityListeners(AuditingEntityListener.class)
 public class Workspace {
 
-    @Id
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -32,13 +34,17 @@ public class Workspace {
     @NotNull
     @Positive
     private Integer capacity;
+    
+    // New fields for seat management
+    @OneToMany(mappedBy = "workspace", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Seat> seats = new ArrayList<>();
 
     @Size(max = 100)
     private String location; // floor, section, etc.
 
     @NotNull
     @Positive
-    private Double pricePerHour;
+    private Double pricePerSeatPerHour; // Changed from pricePerHour
 
     private Boolean available = true;
 
@@ -100,11 +106,11 @@ public class Workspace {
     }
 
     public Double getPricePerHour() {
-        return pricePerHour;
+        return pricePerSeatPerHour;
     }
 
     public void setPricePerHour(Double pricePerHour) {
-        this.pricePerHour = pricePerHour;
+        this.pricePerSeatPerHour = pricePerHour;
     }
 
     public Boolean getAvailable() {
@@ -162,8 +168,46 @@ public class Workspace {
                 ", type='" + type + '\'' +
                 ", capacity=" + capacity +
                 ", location='" + location + '\'' +
-                ", pricePerHour=" + pricePerHour +
+                ", pricePerHour=" + pricePerSeatPerHour +
                 ", available=" + available +
                 '}';
+    }
+    
+ // Method to get total seats count
+    public int getTotalSeatsCount() {
+        return seats.size();
+    }
+    
+    // Method to get available seats count
+    public int getAvailableSeatsCount() {
+        return (int) seats.stream()
+                .filter(seat -> seat.getStatus() == Seat.SeatStatus.AVAILABLE)
+                .count();
+    }
+    
+    // Method to get company allocated seats count
+    public int getCompanyAllocatedSeatsCount() {
+        return (int) seats.stream()
+                .filter(seat -> seat.getStatus() == Seat.SeatStatus.COMPANY_ALLOCATED)
+                .count();
+    }
+    
+    // Method to get employee booked seats count
+    public int getEmployeeBookedSeatsCount() {
+        return (int) seats.stream()
+                .filter(seat -> seat.getStatus() == Seat.SeatStatus.EMPLOYEE_BOOKED)
+                .count();
+    }
+    
+    // Method to add a seat
+    public void addSeat(Seat seat) {
+        seats.add(seat);
+        seat.setWorkspace(this);
+    }
+    
+    // Method to remove a seat
+    public void removeSeat(Seat seat) {
+        seats.remove(seat);
+        seat.setWorkspace(null);
     }
 }

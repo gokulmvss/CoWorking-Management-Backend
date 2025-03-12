@@ -86,7 +86,7 @@ public class CoworkingSpaceServiceImpl implements CoworkingSpaceService {
                         .type(workspace.getType())
                         .capacity(workspace.getCapacity())
                         .location(workspace.getLocation())
-                        .pricePerHour(workspace.getPricePerHour())
+                        .pricePerSeatPerHour(workspace.getPricePerHour())
                         .available(workspace.getAvailable())
                         .coworkingSpaceName(coworkingSpace.getName())
                         .coworkingSpaceId(coworkingSpace.getId())
