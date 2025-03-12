@@ -83,4 +83,39 @@ public class WorkspaceController {
         
         return ResponseEntity.ok(response);
     }
+    @GetMapping("/coworking-space/{coworkingSpaceId}/available-seats")
+//  @PreAuthorize("isAuthenticated()")
+  public ResponseEntity<ApiResponse<List<WorkspaceDTO>>> getWorkspacesWithAvailableSeats(
+          @PathVariable Long coworkingSpaceId,
+          @RequestParam(defaultValue = "1") Integer minSeats) throws ResourceNotFoundException {
+      
+      List<WorkspaceDTO> workspaces = workspaceService.getWorkspacesWithAvailableSeats(coworkingSpaceId, minSeats);
+      
+      ApiResponse<List<WorkspaceDTO>> response = new ApiResponse<>(
+          true, 
+          "Workspaces with available seats retrieved successfully", 
+          workspaces
+      );
+      
+      return ResponseEntity.ok(response);
+  }
+  
+  /**
+   * Get a workspace with all its seats
+   */
+  @GetMapping("/{workspaceId}/with-seats")
+//  @PreAuthorize("isAuthenticated()")
+  public ResponseEntity<ApiResponse<WorkspaceDTO>> getWorkspaceWithSeats(
+          @PathVariable Long workspaceId) throws ResourceNotFoundException {
+      
+      WorkspaceDTO workspace = workspaceService.getWorkspaceWithSeats(workspaceId);
+      
+      ApiResponse<WorkspaceDTO> response = new ApiResponse<>(
+          true, 
+          "Workspace with seats retrieved successfully", 
+          workspace
+      );
+      
+      return ResponseEntity.ok(response);
+  }
 }

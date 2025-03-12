@@ -21,9 +21,9 @@ public class CreateWorkspaceRequest {
     @Size(max = 100, message = "Location cannot be longer than 100 characters")
     private String location;
     
-    @NotNull(message = "Price per hour is required")
-    @Positive(message = "Price per hour must be a positive number")
-    private Double pricePerHour;
+    @NotNull(message = "Price per hour per seat is required")
+    @Positive(message = "Price per hour per seat must be a positive number")
+    private Double pricePerSeatPerHour;
     
     private Boolean available = true;
 
@@ -64,12 +64,14 @@ public class CreateWorkspaceRequest {
 		this.location = location;
 	}
 
-	public Double getPricePerHour() {
-		return pricePerHour;
+	
+
+	public Double getPricePerSeatPerHour() {
+		return pricePerSeatPerHour;
 	}
 
-	public void setPricePerHour(Double pricePerHour) {
-		this.pricePerHour = pricePerHour;
+	public void setPricePerSeatPerHour(Double pricePerSeatPerHour) {
+		this.pricePerSeatPerHour = pricePerSeatPerHour;
 	}
 
 	public Boolean getAvailable() {
