@@ -5,11 +5,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.Repository.CoworkingSpaceRepository;
-import com.example.demo.controller.dto.ResourceNotFoundException;
 import com.example.demo.controller.dto.request.CreateCoworkingSpaceRequest;
 import com.example.demo.controller.dto.response.CoworkingSpaceDTO;
 import com.example.demo.controller.dto.response.WorkspaceDTO;
 import com.example.demo.entity.CoworkingSpace;
+import com.example.demo.exceptions.ResourceNotFoundException;
 import com.example.demo.service.CoworkingSpaceService;
 
 import java.util.Collections;

@@ -6,13 +6,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.Repository.SeatRepository;
 import com.example.demo.Repository.WorkspaceRepository;
-import com.example.demo.controller.dto.ResourceNotFoundException;
 import com.example.demo.controller.dto.request.CreateWorkspaceRequest;
 import com.example.demo.controller.dto.response.SeatDTO;
 import com.example.demo.controller.dto.response.WorkspaceDTO;
 import com.example.demo.entity.CoworkingSpace;
 import com.example.demo.entity.Seat;
 import com.example.demo.entity.Workspace;
+import com.example.demo.exceptions.ResourceNotFoundException;
 import com.example.demo.service.CoworkingSpaceService;
 import com.example.demo.service.WorkspaceService;
 

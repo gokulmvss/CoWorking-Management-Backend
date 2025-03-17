@@ -3,7 +3,6 @@ package com.example.demo.service.impl;
 
 import com.example.demo.Repository.SeatRepository;
 import com.example.demo.Repository.WorkspaceRepository;
-import com.example.demo.controller.dto.ResourceNotFoundException;
 import com.example.demo.controller.dto.request.CompanyAllocationRequest;
 import com.example.demo.controller.dto.request.CreateBulkSeatsRequest;
 import com.example.demo.controller.dto.request.CreateSeatRequest;
@@ -11,6 +10,7 @@ import com.example.demo.controller.dto.response.SeatDTO;
 import com.example.demo.entity.Company;
 import com.example.demo.entity.Seat;
 import com.example.demo.entity.Workspace;
+import com.example.demo.exceptions.ResourceNotFoundException;
 import com.example.demo.service.CompanyService;
 import com.example.demo.service.SeatService;
 import com.example.demo.service.WorkspaceService;

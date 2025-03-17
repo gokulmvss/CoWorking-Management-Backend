@@ -1,10 +1,10 @@
 package com.example.demo.controller;
 
-import com.example.demo.controller.dto.ResourceNotFoundException;
 import com.example.demo.controller.dto.request.CreateBookingRequest;
 import com.example.demo.controller.dto.response.ApiResponse;
 import com.example.demo.controller.dto.response.TableBookingDTO;
 import com.example.demo.entity.TableBookingStatus;
+import com.example.demo.exceptions.ResourceNotFoundException;
 import com.example.demo.service.TableBookingService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

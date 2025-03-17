@@ -2,12 +2,12 @@ package com.example.demo.service;
 
 import java.util.List;
 
-import com.example.demo.controller.dto.ResourceNotFoundException;
 import com.example.demo.controller.dto.request.CompanyAllocationRequest;
 import com.example.demo.controller.dto.request.CreateBulkSeatsRequest;
 import com.example.demo.controller.dto.request.CreateSeatRequest;
 import com.example.demo.controller.dto.response.SeatDTO;
 import com.example.demo.entity.Seat;
+import com.example.demo.exceptions.ResourceNotFoundException;
 
 public interface SeatService {
     

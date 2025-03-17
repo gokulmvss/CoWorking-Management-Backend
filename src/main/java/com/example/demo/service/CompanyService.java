@@ -2,10 +2,10 @@ package com.example.demo.service;
 
 import java.util.List;
 
-import com.example.demo.controller.dto.ResourceNotFoundException;
 import com.example.demo.controller.dto.request.CreateCompanyRequest;
 import com.example.demo.controller.dto.response.CompanyDTO;
 import com.example.demo.entity.Company;
+import com.example.demo.exceptions.ResourceNotFoundException;
 
 public interface CompanyService {
     
@@ -51,4 +51,10 @@ public interface CompanyService {
      * @throws ResourceNotFoundException if company not found
      */
     Company getCompanyEntityById(Long id) throws ResourceNotFoundException;
+    
+    List<Company> findAll();
+    Company findById(Long id);
+    boolean existsByEmail(Object object);
+    Company saveCompany(Company company);
+    void deleteCompany(Long id);
 }

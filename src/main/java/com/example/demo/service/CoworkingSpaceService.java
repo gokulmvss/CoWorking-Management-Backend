@@ -2,10 +2,10 @@ package com.example.demo.service;
 
 import java.util.List;
 
-import com.example.demo.controller.dto.ResourceNotFoundException;
 import com.example.demo.controller.dto.request.CreateCoworkingSpaceRequest;
 import com.example.demo.controller.dto.response.CoworkingSpaceDTO;
 import com.example.demo.entity.CoworkingSpace;
+import com.example.demo.exceptions.ResourceNotFoundException;
 
 public interface CoworkingSpaceService {
     

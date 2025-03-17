@@ -1,6 +1,4 @@
 package com.example.demo.service.impl;
-import com.example.demo.controller.dto.ConflictException;
-import com.example.demo.controller.dto.ResourceNotFoundException;
 import com.example.demo.controller.dto.request.CreateEmployeeRequest;
 import com.example.demo.controller.dto.request.UpdateEmployeeRequest;
 import com.example.demo.controller.dto.response.EmployeeDTO;
@@ -10,6 +8,8 @@ import com.example.demo.entity.Company;
 import com.example.demo.entity.Employee;
 import com.example.demo.entity.Seat;
 import com.example.demo.entity.Workspace;
+import com.example.demo.exceptions.ConflictException;
+import com.example.demo.exceptions.ResourceNotFoundException;
 import com.example.demo.Repository.EmployeeRepository;
 import com.example.demo.Repository.SeatRepository;
 import com.example.demo.Repository.WorkspaceRepository;
@@ -30,6 +30,34 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final CompanyService companyService;
     private final SeatRepository seatRepository;
     private final WorkspaceRepository workspaceRepository;
+    
+    public List<Employee> findAll() {
+        return employeeRepository.findAll();
+    }
+    
+    public List<Employee> findByCompanyId(Long companyId) {
+        return employeeRepository.findByCompanyId(companyId);
+    }
+    
+    public Employee findById(Long id) {
+        return employeeRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Employee not found with id: " + id));
+    }
+    
+    public boolean existsByEmail(String email) {
+        return employeeRepository.existsByEmail(email);
+    }
+    
+    @Transactional
+    public Employee saveEmployee(Employee employee) {
+        return employeeRepository.save(employee);
+    }
+    
+    @Transactional
+    public void deleteEmployee(Long id) {
+        Employee employee = findById(id);
+        employeeRepository.delete(employee);
+    }
 
     @Autowired
     public EmployeeServiceImpl(

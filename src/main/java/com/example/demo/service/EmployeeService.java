@@ -1,12 +1,12 @@
 package com.example.demo.service;
 
-import com.example.demo.controller.dto.ResourceNotFoundException;
 import com.example.demo.controller.dto.request.CreateEmployeeRequest;
 import com.example.demo.controller.dto.request.UpdateEmployeeRequest;
 import com.example.demo.controller.dto.response.EmployeeDTO;
 import com.example.demo.controller.dto.response.SeatDTO;
 import com.example.demo.controller.dto.response.WorkspaceDTO;
 import com.example.demo.entity.Employee;
+import com.example.demo.exceptions.ResourceNotFoundException;
 
 import java.util.List;
 
@@ -90,4 +90,11 @@ public interface EmployeeService {
      * @throws ResourceNotFoundException if employee not found
      */
     Employee getEmployeeEntityById(Long id) throws ResourceNotFoundException;
+    
+    List<Employee> findAll();
+    List<Employee> findByCompanyId(Long companyId);
+    Employee findById(Long id);
+    boolean existsByEmail(String email);
+    Employee saveEmployee(Employee employee);
+    void deleteEmployee(Long id);
 }

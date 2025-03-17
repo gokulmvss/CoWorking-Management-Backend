@@ -7,10 +7,10 @@ import org.springframework.http.ResponseEntity;
 //import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.demo.controller.dto.ResourceNotFoundException;
 import com.example.demo.controller.dto.request.CreateCoworkingSpaceRequest;
 import com.example.demo.controller.dto.response.ApiResponse;
 import com.example.demo.controller.dto.response.CoworkingSpaceDTO;
+import com.example.demo.exceptions.ResourceNotFoundException;
 import com.example.demo.service.CoworkingSpaceService;
 
 import java.util.List;

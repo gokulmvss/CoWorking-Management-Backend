@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.controller.dto.ResourceNotFoundException;
 import com.example.demo.controller.dto.request.CompanyAllocationRequest;
 import com.example.demo.controller.dto.request.CreateCompanyRequest;
 import com.example.demo.controller.dto.response.ApiResponse;
 import com.example.demo.controller.dto.response.CompanyDTO;
 import com.example.demo.controller.dto.response.SeatDTO;
+import com.example.demo.exceptions.ResourceNotFoundException;
 import com.example.demo.service.CompanyService;
 import com.example.demo.service.SeatService;
 

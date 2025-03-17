@@ -12,12 +12,19 @@ import com.example.demo.entity.Company;
 
 @Repository
 public interface CompanyRepository extends JpaRepository<Company, Long> {
-    List<Company> findByActiveTrue();
-    
-    Optional<Company> findByIdAndActiveTrue(Long id);
-    
-    boolean existsByName(String name);
-    
-    @Query("SELECT c FROM Company c LEFT JOIN FETCH c.allocatedSeats WHERE c.id = :id")
-    Optional<Company> findByIdWithAllocatedSeats(@Param("id") Long id);
+	List<Company> findByActiveTrue();
+
+	Optional<Company> findByIdAndActiveTrue(Long id);
+
+	boolean existsByName(String name);
+
+	@Query("SELECT c FROM Company c LEFT JOIN FETCH c.allocatedSeats WHERE c.id = :id")
+	Optional<Company> findByIdWithAllocatedSeats(@Param("id") Long id);
+
+	Optional<Company> findByName(String name);
+
+	Optional<Company> findByEmail(String email);
+
+	boolean existsByEmail(String email);
+
 }

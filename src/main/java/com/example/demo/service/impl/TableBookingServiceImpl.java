@@ -1,12 +1,12 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.controller.dto.ResourceNotFoundException;
 import com.example.demo.controller.dto.request.CreateBookingRequest;
 import com.example.demo.controller.dto.response.TableBookingDTO;
 import com.example.demo.entity.Employee;
 import com.example.demo.entity.Seat;
 import com.example.demo.entity.TableBooking;
 import com.example.demo.entity.TableBookingStatus;
+import com.example.demo.exceptions.ResourceNotFoundException;
 import com.example.demo.Repository.SeatRepository;
 import com.example.demo.Repository.TableBookingRepository;
 import com.example.demo.service.EmployeeService;

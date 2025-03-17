@@ -7,12 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.Repository.CompanyRepository;
-import com.example.demo.controller.dto.ResourceNotFoundException;
 import com.example.demo.controller.dto.request.CreateCompanyRequest;
 import com.example.demo.controller.dto.response.CompanyDTO;
 import com.example.demo.controller.dto.response.SeatDTO;
 import com.example.demo.entity.Company;
 import com.example.demo.entity.Seat;
+import com.example.demo.exceptions.ResourceNotFoundException;
 import com.example.demo.service.CompanyService;
 
 import jakarta.transaction.Transactional;
@@ -25,6 +25,30 @@ public class CompanyServiceImpl implements CompanyService {
     @Autowired
     public CompanyServiceImpl(CompanyRepository companyRepository) {
         this.companyRepository = companyRepository;
+    }
+    
+    public List<Company> findAll() {
+        return companyRepository.findAll();
+    }
+    
+    public Company findById(Long id) {
+        return companyRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Company not found with id: " + id));
+    }
+    
+    public boolean existsByEmail(String email) {
+        return companyRepository.existsByEmail(email);
+    }
+    
+    @Transactional
+    public Company saveCompany(Company company) {
+        return companyRepository.save(company);
+    }
+    
+    @Transactional
+    public void deleteCompany(Long id) {
+        Company company = findById(id);
+        companyRepository.delete(company);
     }
 
     @Override
@@ -109,4 +133,11 @@ public class CompanyServiceImpl implements CompanyService {
                 .companyName(seat.getCompany() != null ? seat.getCompany().getName() : null)
                 .build();
     }
+
+	@Override
+	public boolean existsByEmail(Object object) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

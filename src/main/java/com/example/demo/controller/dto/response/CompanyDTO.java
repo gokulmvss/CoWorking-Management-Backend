@@ -5,7 +5,19 @@ import java.util.List;
 public class CompanyDTO {
     private Long id;
     private String name;
-    private String address;
+    public CompanyDTO(Long id, String name, String address, String email, String phone, String description,
+			Boolean active) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.address = address;
+		this.email = email;
+		this.phone = phone;
+		this.description = description;
+		this.active = active;
+	}
+
+	private String address;
     private String email;
     private String phone;
     private String description;

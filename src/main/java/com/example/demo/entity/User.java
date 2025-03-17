@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.Builder;
+
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -15,6 +17,7 @@ import java.util.Set;
 @Entity
 @Table(name = "users")
 @EntityListeners(AuditingEntityListener.class)
+@Builder
 public class User {
 
     @Id
@@ -54,12 +57,40 @@ public class User {
     @LastModifiedDate
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+    
+ // Add this field to User.java
+    @Column(name = "company_id")
+    private Long companyId;
 
     // Default constructor
     public User() {
     }
 
-    // Getters and setters
+    public User(Long id, @NotBlank @Size(max = 50) String firstName, @NotBlank @Size(max = 50) String lastName,
+			@NotBlank @Email @Size(max = 100) String email, @NotBlank @Size(max = 120) String password,
+			Set<UserRole> roles, Boolean active, LocalDateTime createdAt, LocalDateTime updatedAt,Long companyId) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.password = password;
+		this.roles = roles;
+		this.active = active;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+		this.companyId=companyId;
+	}
+
+	public Long getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(Long companyId) {
+		this.companyId = companyId;
+	}
+
+	// Getters and setters
     public Long getId() {
         return id;
     }
@@ -127,4 +158,12 @@ public class User {
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
+
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public void setUpdatedAt(LocalDateTime updatedAt) {
+		this.updatedAt = updatedAt;
+	}
 }

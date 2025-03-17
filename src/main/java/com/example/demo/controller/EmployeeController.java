@@ -1,13 +1,13 @@
 package com.example.demo.controller;
 
-import com.example.demo.controller.dto.ConflictException;
-import com.example.demo.controller.dto.ResourceNotFoundException;
 import com.example.demo.controller.dto.request.CreateEmployeeRequest;
 import com.example.demo.controller.dto.request.UpdateEmployeeRequest;
 import com.example.demo.controller.dto.response.ApiResponse;
 import com.example.demo.controller.dto.response.EmployeeDTO;
 import com.example.demo.controller.dto.response.SeatDTO;
 import com.example.demo.controller.dto.response.WorkspaceDTO;
+import com.example.demo.exceptions.ConflictException;
+import com.example.demo.exceptions.ResourceNotFoundException;
 import com.example.demo.service.EmployeeService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
