@@ -1,10 +1,5 @@
 package com.example.demo.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.example.demo.controller.dto.request.AddEmployeeRequest;
 import com.example.demo.controller.dto.request.PasswordResetRequest;
 import com.example.demo.controller.dto.request.RegisterCompanyRequest;
@@ -48,6 +43,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:4200/", allowCredentials = "true")
 public class AuthController {
 	@GetMapping("/test")
     public ApiResponse<String> test() {
