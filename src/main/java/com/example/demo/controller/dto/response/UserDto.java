@@ -56,4 +56,11 @@ public class UserDto {
     private String email;
     private Set<UserRole> roles;
     private Boolean active;
+    private Long companyId;
+	public Long getCompanyId() {
+		return companyId;
+	}
+	public void setCompanyId(Long companyId) {
+		this.companyId = companyId;
+	} 
 }

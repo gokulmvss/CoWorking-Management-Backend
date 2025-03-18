@@ -72,6 +72,6 @@ public class CredentialGeneratorService {
         String username = generateUsername(employee, company);
         String password = generateSecurePassword();
         
-        return new EmployeeCredentialsDto(username, password);
+        return new EmployeeCredentialsDto(username, employee.getEmail(),password);
     }
 }

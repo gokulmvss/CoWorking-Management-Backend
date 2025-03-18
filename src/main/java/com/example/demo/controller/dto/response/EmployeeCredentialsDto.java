@@ -6,6 +6,7 @@ package com.example.demo.controller.dto.response;
 public class EmployeeCredentialsDto {
     private String username;
     private String password;
+    private String email;
 	public EmployeeCredentialsDto() {
 		super();
 	}
@@ -21,10 +22,18 @@ public class EmployeeCredentialsDto {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public EmployeeCredentialsDto(String username, String password) {
+	
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public EmployeeCredentialsDto(String username,String email,String password) {
 		super();
 		this.username = username;
 		this.password = password;
+		this.email=email;
 	}
     
 }

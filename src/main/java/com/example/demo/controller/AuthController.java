@@ -65,6 +65,14 @@ public class AuthController {
     	this.userService=userService;
     }
     
+    @GetMapping("/current-user")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<ApiResponse<UserDto>> getCurrentUser(Authentication authentication) {
+        User user = (User) authentication.getPrincipal(); // Cast to your User class
+        UserDto userDto = mapUserToDto(user);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Current user retrieved successfully", userDto));
+    }
+    
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<UserDto>> login(@Valid @RequestBody LoginRequest loginRequest) {
         // Create authentication object
@@ -428,14 +436,16 @@ public class AuthController {
         }
     }
     
-    @GetMapping("/current-user")
-//    @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<ApiResponse<UserDto>> getCurrentUser(@AuthenticationPrincipal UserDetails userDetails) {
-        User user = userService.findByEmail(userDetails.getUsername());
-        UserDto userDto = mapUserToDto(user);
-        
-        return ResponseEntity.ok(new ApiResponse<>(true, "Current user retrieved successfully", userDto));
-    }
+//    @GetMapping("/current-user")
+//   @PreAuthorize("isAuthenticated()")
+//    public ResponseEntity<ApiResponse<UserDto>> getCurrentUser(@AuthenticationPrincipal UserDetails userDetails) {
+//        User user = userService.findByEmail(userDetails.getUsername());
+//        UserDto userDto = mapUserToDto(user);
+//        
+//        return ResponseEntity.ok(new ApiResponse<>(true, "Current user retrieved successfully", userDto));
+//    }
+    
+   
     
     // Helper methods for mapping entities to DTOs
 //    private UserDto mapUserToDto(User user) {
@@ -456,6 +466,7 @@ public class AuthController {
         userDto.setEmail(user.getEmail());
         userDto.setRoles(user.getRoles());
         userDto.setActive(user.getActive());
+        userDto.setCompanyId(user.getCompanyId());
         return userDto;
     }
     
