@@ -58,4 +58,8 @@ public interface WorkspaceService {
      * @throws ResourceNotFoundException if workspace not found
      */
     WorkspaceDTO getWorkspaceWithSeats(Long workspaceId) throws ResourceNotFoundException;
+
+	void deleteWorkspace(Long workspaceId);
+
+	WorkspaceDTO getWorkspaceById(Long workspaceId);
 }

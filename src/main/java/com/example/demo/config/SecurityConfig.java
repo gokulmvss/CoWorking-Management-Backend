@@ -58,6 +58,7 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/login", "/api/auth/register/**").permitAll()
+                .requestMatchers("/api/complaints/**").permitAll()
                 .requestMatchers("/api/public/**").permitAll()
                 .requestMatchers("/api/space-owners/**").hasRole("SPACE_OWNER")
                 .requestMatchers("/api/companies/**").hasRole("COMPANY_ADMIN")

@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 //import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -115,6 +116,41 @@ public class WorkspaceController {
           true, 
           "Workspace with seats retrieved successfully", 
           workspace
+      );
+      
+      return ResponseEntity.ok(response);
+  }
+  
+  @GetMapping("/{workspaceId}")
+  @PreAuthorize("isAuthenticated()")
+public ResponseEntity<ApiResponse<WorkspaceDTO>> getWorkspaceById(
+       @PathVariable Long workspaceId) throws ResourceNotFoundException {
+   
+   WorkspaceDTO workspace = workspaceService.getWorkspaceById(workspaceId);
+   
+   ApiResponse<WorkspaceDTO> response = new ApiResponse<>(
+       true, 
+       "Workspace retrieved successfully", 
+       workspace
+   );
+   
+   return ResponseEntity.ok(response);
+}
+  
+  /**
+   * Delete a workspace by ID (admin only)
+   */
+  @DeleteMapping("/{workspaceId}")
+  @PreAuthorize("hasAuthority('ADMIN')")
+  public ResponseEntity<ApiResponse<Void>> deleteWorkspace(
+          @PathVariable Long workspaceId) {
+      
+      workspaceService.deleteWorkspace(workspaceId);
+      
+      ApiResponse<Void> response = new ApiResponse<>(
+          true, 
+          "Workspace deleted successfully", 
+          null
       );
       
       return ResponseEntity.ok(response);

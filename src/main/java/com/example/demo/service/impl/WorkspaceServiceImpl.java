@@ -113,6 +113,38 @@ public class WorkspaceServiceImpl implements WorkspaceService {
         return convertToDTO(workspace, seatDTOs);
     }
     
+    /**
+     * Get a workspace by ID
+     * 
+     * @param workspaceId the ID of the workspace to retrieve
+     * @return the workspace DTO
+     * @throws ResourceNotFoundException if the workspace doesn't exist
+     */
+    public WorkspaceDTO getWorkspaceById(Long workspaceId) throws ResourceNotFoundException {
+        Workspace workspace = workspaceRepository.findById(workspaceId)
+            .orElseThrow(() -> new ResourceNotFoundException("Workspace not found with id: " + workspaceId));
+        
+        return mapToDTO(workspace);
+    }
+    
+    private WorkspaceDTO mapToDTO(Workspace workspace) {
+        return WorkspaceDTO.builder()
+                .id(workspace.getId())
+                .name(workspace.getName())
+                .type(workspace.getType())
+                .capacity(workspace.getCapacity())
+                .location(workspace.getLocation())
+                .pricePerSeatPerHour(workspace.getPricePerHour())
+                .available(workspace.getAvailable())
+                .coworkingSpaceId(workspace.getCoworkingSpace().getId())
+                .coworkingSpaceName(workspace.getCoworkingSpace().getName())
+                .totalSeats(workspace.getTotalSeatsCount())
+                .availableSeats(workspace.getAvailableSeatsCount())
+                .companyAllocatedSeats(workspace.getCompanyAllocatedSeatsCount())
+                .employeeBookedSeats(workspace.getEmployeeBookedSeatsCount())
+                .build();
+    }
+    
     private WorkspaceDTO convertToDTO(Workspace workspace, List<SeatDTO> seats) {
         return WorkspaceDTO.builder()
                 .id(workspace.getId())
@@ -145,4 +177,30 @@ public class WorkspaceServiceImpl implements WorkspaceService {
                 .companyName(seat.getCompany() != null ? seat.getCompany().getName() : null)
                 .build();
     }
+
+	@Override
+	public void deleteWorkspace(Long workspaceId) {
+		// Find workspace or throw exception
+	    Workspace workspace = workspaceRepository.findById(workspaceId)
+	        .orElseThrow(() -> new ResourceNotFoundException("Workspace not found with id: " + workspaceId));
+	    
+	    // Check if workspace has allocated or booked seats
+	    if (workspace.getCompanyAllocatedSeatsCount() > 0) {
+	        throw new IllegalStateException("Cannot delete workspace with company-allocated seats. Please deallocate seats first.");
+	    }
+	    
+	    if (workspace.getEmployeeBookedSeatsCount() > 0) {
+	        throw new IllegalStateException("Cannot delete workspace with employee bookings. Please wait until bookings are completed.");
+	    }
+	    
+	    // The JPA cascade settings will automatically delete associated seats
+	    workspaceRepository.delete(workspace);
+	    
+	    // Update coworking space statistics if needed
+	    CoworkingSpace coworkingSpace = workspace.getCoworkingSpace();
+	    // If you have other counts to update on the coworking space, do it here
+		
+	}
+
+	
 }
