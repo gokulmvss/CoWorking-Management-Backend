@@ -50,4 +50,7 @@ public interface CoworkingSpaceService {
      * @throws ResourceNotFoundException if not found
      */
     CoworkingSpace getCoworkingSpaceEntityById(Long id) throws ResourceNotFoundException;
+    
+    public boolean existsByContactEmail(String email);
+    public CoworkingSpace saveCoworkingSpace(CoworkingSpace space);
 }

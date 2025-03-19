@@ -25,7 +25,13 @@ public class CoworkingSpaceServiceImpl implements CoworkingSpaceService {
     public CoworkingSpaceServiceImpl(CoworkingSpaceRepository coworkingSpaceRepository) {
         this.coworkingSpaceRepository = coworkingSpaceRepository;
     }
-
+    
+    public boolean existsByContactEmail(String email) {
+        return coworkingSpaceRepository.existsByContactEmail(email);
+    }
+    public CoworkingSpace saveCoworkingSpace(CoworkingSpace space) {
+        return coworkingSpaceRepository.save(space);
+    }
     @Override
     @Transactional
     public CoworkingSpaceDTO createCoworkingSpace(CreateCoworkingSpaceRequest request) {

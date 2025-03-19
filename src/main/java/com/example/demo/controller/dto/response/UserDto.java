@@ -57,6 +57,13 @@ public class UserDto {
     private Set<UserRole> roles;
     private Boolean active;
     private Long companyId;
+    private Long coworkingSpaceId;
+	public Long getCoworkingSpaceId() {
+		return coworkingSpaceId;
+	}
+	public void setCoworkingSpaceId(Long coworkingSpaceId) {
+		this.coworkingSpaceId = coworkingSpaceId;
+	}
 	public Long getCompanyId() {
 		return companyId;
 	}

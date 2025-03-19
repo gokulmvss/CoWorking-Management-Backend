@@ -10,10 +10,12 @@ import com.example.demo.controller.dto.response.EmployeeCredentialsDto;
 import com.example.demo.controller.dto.response.LoginRequest;
 import com.example.demo.controller.dto.response.UserDto;
 import com.example.demo.entity.Company;
+import com.example.demo.entity.CoworkingSpace;
 import com.example.demo.entity.Employee;
 import com.example.demo.entity.User;
 import com.example.demo.entity.UserRole;
 import com.example.demo.service.CompanyService;
+import com.example.demo.service.CoworkingSpaceService;
 import com.example.demo.service.CredentialGeneratorService;
 import com.example.demo.service.EmployeeService;
 import com.example.demo.service.UserService;
@@ -55,14 +57,16 @@ public class AuthController {
     private final EmployeeService employeeService;
     private final CredentialGeneratorService credentialGeneratorService;
     private final AuthenticationManager authenticationManager;
+    private final CoworkingSpaceService coworkingspaceservice;
     
     public AuthController(UserService userService,CompanyService companyService,EmployeeService employeeService,
-    		CredentialGeneratorService credentialGeneratorService,AuthenticationManager authenticationManager) {
+    		CredentialGeneratorService credentialGeneratorService,AuthenticationManager authenticationManager,CoworkingSpaceService coworkingspaceservice) {
     	this.authenticationManager=authenticationManager;
     	this.companyService=companyService;
     	this.credentialGeneratorService = credentialGeneratorService;
     	this.employeeService=employeeService;
     	this.userService=userService;
+    	this.coworkingspaceservice=coworkingspaceservice;
     }
     
     @GetMapping("/current-user")
@@ -90,6 +94,36 @@ public class AuthController {
         return ResponseEntity.ok(new ApiResponse<>(true, "Authentication successful", userDto));
     }
     
+//    @PostMapping("/register/space-owner")
+//    public ResponseEntity<ApiResponse<UserDto>> registerSpaceOwner(
+//            @Valid @RequestBody RegisterSpaceOwnerRequest request) {
+//        
+//        // Check if email is already in use
+//        if (userService.findOptionalByEmail(request.getEmail()).isPresent()) {
+//            return ResponseEntity.status(HttpStatus.CONFLICT)
+//                    .body(new ApiResponse<>(false, "Email already in use", null));
+//        }
+//        
+//        // Create new user with SPACE_OWNER role
+//        Set<UserRole> roles = new HashSet<>();
+//        roles.add(UserRole.SPACE_OWNER);
+//        
+//        User user = new User();
+//        user.setFirstName(request.getFirstName());
+//        user.setLastName(request.getLastName());
+//        user.setEmail(request.getEmail());
+//        user.setPassword(request.getPassword()); // Will be encoded by UserService
+//        user.setRoles(roles);
+//        user.setActive(true);
+//        user.setCreatedAt(LocalDateTime.now());
+//        
+//        User savedUser = userService.saveUser(user);
+//        UserDto userDto = mapUserToDto(savedUser);
+//        
+//        return ResponseEntity.status(HttpStatus.CREATED)
+//                .body(new ApiResponse<>(true, "Space owner registered successfully", userDto));
+//    }
+    
     @PostMapping("/register/space-owner")
     public ResponseEntity<ApiResponse<UserDto>> registerSpaceOwner(
             @Valid @RequestBody RegisterSpaceOwnerRequest request) {
@@ -97,8 +131,26 @@ public class AuthController {
         // Check if email is already in use
         if (userService.findOptionalByEmail(request.getEmail()).isPresent()) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body(new ApiResponse<>(false, "Email already in use", null));
+                .body(new ApiResponse<>(false, "Email already in use", null));
         }
+        
+        // Check if space email is already in use
+        if (coworkingspaceservice.existsByContactEmail(request.getSpaceContactEmail())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(new ApiResponse<>(false, "Space email already in use", null));
+        }
+        
+        // Create new coworking space first
+        CoworkingSpace space = new CoworkingSpace();
+        space.setName(request.getSpaceName());
+        space.setAddress(request.getSpaceAddress());
+        space.setContactEmail(request.getSpaceContactEmail());
+        space.setContactPhone(request.getSpaceContactPhone());
+        space.setDescription(request.getSpaceDescription());
+        space.setActive(true);
+        space.setCreatedAt(LocalDateTime.now());
+        
+        CoworkingSpace savedSpace = coworkingspaceservice.saveCoworkingSpace(space);
         
         // Create new user with SPACE_OWNER role
         Set<UserRole> roles = new HashSet<>();
@@ -112,12 +164,13 @@ public class AuthController {
         user.setRoles(roles);
         user.setActive(true);
         user.setCreatedAt(LocalDateTime.now());
+        user.setCoworkingSpaceId(savedSpace.getId()); // Set the space ID
         
         User savedUser = userService.saveUser(user);
         UserDto userDto = mapUserToDto(savedUser);
         
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(new ApiResponse<>(true, "Space owner registered successfully", userDto));
+                .body(new ApiResponse<>(true, "Space owner and coworking space registered successfully", userDto));
     }
     
     @PostMapping("/register/company")
@@ -458,6 +511,17 @@ public class AuthController {
 //                .active(user.getActive())
 //                .build();
 //    }
+//    private UserDto mapUserToDto(User user) {
+//        UserDto userDto = new UserDto();
+//        userDto.setId(user.getId());
+//        userDto.setFirstName(user.getFirstName());
+//        userDto.setLastName(user.getLastName());
+//        userDto.setEmail(user.getEmail());
+//        userDto.setRoles(user.getRoles());
+//        userDto.setActive(user.getActive());
+//        userDto.setCompanyId(user.getCompanyId());
+//        return userDto;
+//    }
     private UserDto mapUserToDto(User user) {
         UserDto userDto = new UserDto();
         userDto.setId(user.getId());
@@ -467,8 +531,10 @@ public class AuthController {
         userDto.setRoles(user.getRoles());
         userDto.setActive(user.getActive());
         userDto.setCompanyId(user.getCompanyId());
+        userDto.setCoworkingSpaceId(user.getCoworkingSpaceId());
         return userDto;
-    }
+        }
+       
     
     private CompanyDTO mapCompanyToDto(Company company) {
         return CompanyDTO.builder()

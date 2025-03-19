@@ -125,7 +125,4 @@ public class Company {
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
-    
-   
- 
 }

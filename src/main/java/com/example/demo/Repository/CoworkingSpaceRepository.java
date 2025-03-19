@@ -18,4 +18,6 @@ public interface CoworkingSpaceRepository extends JpaRepository<CoworkingSpace, 
     Optional<CoworkingSpace> findByIdWithWorkspaces(Long id);
     
     boolean existsByName(String name);
+
+	boolean existsByContactEmail(String email);
 }
