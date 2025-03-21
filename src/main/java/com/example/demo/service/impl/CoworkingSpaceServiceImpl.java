@@ -49,6 +49,11 @@ public class CoworkingSpaceServiceImpl implements CoworkingSpaceService {
         coworkingSpace.setDescription(request.getDescription());
         coworkingSpace.setActive(true);
         
+     // Set new fields for totalSeats and availableSeats
+        coworkingSpace.setTotalSeats(request.getTotalSeats() != null ? request.getTotalSeats() : 0);
+        coworkingSpace.setAvailableSeats(request.getAvailableSeats() != null ? request.getAvailableSeats() : 0);
+
+        
         CoworkingSpace savedSpace = coworkingSpaceRepository.save(coworkingSpace);
         
         return mapToDTO(savedSpace);
@@ -103,6 +108,45 @@ public class CoworkingSpaceServiceImpl implements CoworkingSpaceService {
         
         return dto;
     }
+    @Override
+    @Transactional
+    public CoworkingSpaceDTO updateCoworkingSpace(Long id, CreateCoworkingSpaceRequest request) 
+            throws ResourceNotFoundException {
+        
+        // Find the existing coworking space or throw exception if not found
+        CoworkingSpace existingSpace = coworkingSpaceRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Coworking space not found with id: " + id));
+        
+        // Update fields
+        existingSpace.setName(request.getName());
+        existingSpace.setAddress(request.getAddress());
+        existingSpace.setContactEmail(request.getContactEmail());
+        existingSpace.setContactPhone(request.getContactPhone());
+        existingSpace.setDescription(request.getDescription());
+        // Update total and available seats
+        existingSpace.setTotalSeats(request.getTotalSeats() != null ? request.getTotalSeats() : existingSpace.getTotalSeats());
+        existingSpace.setAvailableSeats(request.getAvailableSeats() != null ? request.getAvailableSeats() : existingSpace.getAvailableSeats());
+        // Keep the active status as is since it might not be in the request
+        // We're not modifying the active status through this update
+        
+        // Save the updated space
+        CoworkingSpace savedSpace = coworkingSpaceRepository.save(existingSpace);
+        
+        // Return the updated space as DTO
+        return mapToDTO(savedSpace);
+    }
+
+    @Override
+    @Transactional
+    public void deleteCoworkingSpace(Long id) throws ResourceNotFoundException {
+        // Check if the coworking space exists
+        if (!coworkingSpaceRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Coworking space not found with id: " + id);
+        }
+        
+        // Delete the coworking space
+        coworkingSpaceRepository.deleteById(id);
+    }
 
     @Override
     @Transactional(readOnly = true)
@@ -120,6 +164,8 @@ public class CoworkingSpaceServiceImpl implements CoworkingSpaceService {
                 .contactPhone(coworkingSpace.getContactPhone())
                 .description(coworkingSpace.getDescription())
                 .active(coworkingSpace.getActive())
+                .totalSeats(coworkingSpace.getTotalSeats())
+                .availableSeats(coworkingSpace.getTotalSeats())
                 .workspaces(Collections.emptyList()) // Default empty, will be filled when needed
                 .build();
     }

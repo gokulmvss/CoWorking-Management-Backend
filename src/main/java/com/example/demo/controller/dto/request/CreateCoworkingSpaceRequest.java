@@ -1,6 +1,7 @@
 package com.example.demo.controller.dto.request;
 
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
@@ -23,10 +24,32 @@ public class CreateCoworkingSpaceRequest {
     
     @Size(max = 500, message = "Description cannot be longer than 500 characters")
     private String description;
+ // Added totalSeats field with validation
+    @Min(value = 0, message = "Total seats cannot be negative")
+    private Integer totalSeats;
+    
+    // Added availableSeats field with validation
+    @Min(value = 0, message = "Available seats cannot be negative")
+    private Integer availableSeats;
+
+	public Integer getTotalSeats() {
+		return totalSeats;
+	}
+
+	public void setTotalSeats(Integer totalSeats) {
+		this.totalSeats = totalSeats;
+	}
+
+	public Integer getAvailableSeats() {
+		return availableSeats;
+	}
+
+	public void setAvailableSeats(Integer availableSeats) {
+		this.availableSeats = availableSeats;
+	}
 
 	public CreateCoworkingSpaceRequest() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public String getName() {

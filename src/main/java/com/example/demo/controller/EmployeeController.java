@@ -77,7 +77,7 @@ public class EmployeeController {
 //    @PreAuthorize("hasAnyAuthority('EMPLOYEE', 'COMPANY_ADMIN')")
     public ResponseEntity<ApiResponse<EmployeeDTO>> getEmployeeById(@PathVariable Long id) {
         try {
-            EmployeeDTO employee = employeeService.getEmployeeById(id);
+            EmployeeDTO employee = employeeService.getEmployeeByUserId(id);
             
             ApiResponse<EmployeeDTO> response = new ApiResponse<>(
                 true, 

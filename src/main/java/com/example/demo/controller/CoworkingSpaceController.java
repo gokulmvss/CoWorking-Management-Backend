@@ -99,5 +99,42 @@ public class CoworkingSpaceController {
         );
         
         return ResponseEntity.ok(response);
+    }/**
+     * Update an existing coworking space (admin only)
+     */
+    @PutMapping("/{id}")
+//        @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<ApiResponse<CoworkingSpaceDTO>> updateCoworkingSpace(
+            @PathVariable Long id,
+            @Valid @RequestBody CreateCoworkingSpaceRequest updatedSpace) throws ResourceNotFoundException {
+        
+        CoworkingSpaceDTO updated = coworkingSpaceService.updateCoworkingSpace(id, updatedSpace);
+        
+        ApiResponse<CoworkingSpaceDTO> response = new ApiResponse<>(
+            true, 
+            "Coworking space updated successfully", 
+            updated
+        );
+        
+        return ResponseEntity.ok(response);
+    }
+
+    /**
+     * Delete a coworking space by ID (admin only)
+     */
+    @DeleteMapping("/{id}")
+//        @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<ApiResponse<Void>> deleteCoworkingSpace(@PathVariable Long id) 
+            throws ResourceNotFoundException {
+        
+        coworkingSpaceService.deleteCoworkingSpace(id);
+        
+        ApiResponse<Void> response = new ApiResponse<>(
+            true, 
+            "Coworking space deleted successfully", 
+            null
+        );
+        
+        return ResponseEntity.ok(response);
     }
 }

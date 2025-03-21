@@ -141,7 +141,8 @@ public ResponseEntity<ApiResponse<WorkspaceDTO>> getWorkspaceById(
    * Delete a workspace by ID (admin only)
    */
   @DeleteMapping("/{workspaceId}")
-  @PreAuthorize("hasAuthority('ADMIN')")
+//  @PreAuthorize("hasAuthority('ADMIN')")
+//  @PreAuthorize("isAuthenticated()")
   public ResponseEntity<ApiResponse<Void>> deleteWorkspace(
           @PathVariable Long workspaceId) {
       

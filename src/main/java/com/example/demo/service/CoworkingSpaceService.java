@@ -53,4 +53,6 @@ public interface CoworkingSpaceService {
     
     public boolean existsByContactEmail(String email);
     public CoworkingSpace saveCoworkingSpace(CoworkingSpace space);
+    CoworkingSpaceDTO updateCoworkingSpace(Long id, CreateCoworkingSpaceRequest updatedSpace) throws ResourceNotFoundException;
+    void deleteCoworkingSpace(Long id) throws ResourceNotFoundException;
 }

@@ -41,7 +41,12 @@ public class CoworkingSpace {
     private String description;
 
     private Boolean active = true;
+ // Added total seats field
+    private Integer totalSeats = 0;
 
+    // Added available seats field
+    private Integer availableSeats = 0;
+    
     @OneToMany(mappedBy = "coworkingSpace", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Workspace> workspaces = new ArrayList<>();
 
@@ -134,6 +139,22 @@ public class CoworkingSpace {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+    
+    public Integer getTotalSeats() {
+        return totalSeats;
+    }
+
+    public void setTotalSeats(Integer totalSeats) {
+        this.totalSeats = totalSeats;
+    }
+
+    public Integer getAvailableSeats() {
+        return availableSeats;
+    }
+
+    public void setAvailableSeats(Integer availableSeats) {
+        this.availableSeats = availableSeats;
     }
 
     // Helper methods for bidirectional relationships

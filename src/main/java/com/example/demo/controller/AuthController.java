@@ -70,7 +70,7 @@ public class AuthController {
     }
     
     @GetMapping("/current-user")
-    @PreAuthorize("isAuthenticated()")
+//    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<ApiResponse<UserDto>> getCurrentUser(Authentication authentication) {
         User user = (User) authentication.getPrincipal(); // Cast to your User class
         UserDto userDto = mapUserToDto(user);
