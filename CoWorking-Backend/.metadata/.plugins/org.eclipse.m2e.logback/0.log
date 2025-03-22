@@ -706,3 +706,12 @@
 2025-03-12 20:50:22,044 [Worker-23: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\Administrator\Desktop\Capstone-CoWorking space\CoWorking-Backend\demo\src\test\resources
 2025-03-12 16:07:46,055 [Stop Help Server] INFO  org.eclipse.jetty.server.Server - Stopped oejs.Server@1131a2a6{STOPPING}[12.0.15,sto=0]
 2025-03-12 16:07:46,061 [Stop Help Server] INFO  o.e.jetty.server.AbstractConnector - Stopped ServerConnector@3e161b2{HTTP/1.1, (http/1.1)}{127.0.0.1:0}
+2025-03-12 16:49:49,760 [Worker-0: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.
+2025-03-12 16:57:31,090 [Start Help Server] INFO  org.eclipse.jetty.server.Server - jetty-12.0.15; built: 2024-11-05T19:44:57.623Z; git: 8281ae9740d4b4225e8166cc476bad237c70213a; jvm 21.0.5+11-LTS
+2025-03-12 16:57:31,176 [Start Help Server] INFO  o.e.j.server.handler.ContextHandler - Started oeje8n.ContextHandler$CoreContextHandler@2ef75393{/help,/help,b=null,a=AVAILABLE,h=oeje8n.ContextHandler$CoreContextHandler$CoreToNestedHandler@39badcd8{STARTED}}
+2025-03-12 16:57:31,177 [Start Help Server] INFO  o.e.j.s.DefaultSessionIdManager - Session workerName=node0
+2025-03-12 16:57:31,202 [Start Help Server] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@55f11cea{HTTP/1.1, (http/1.1)}{127.0.0.1:57599}
+2025-03-12 16:57:31,223 [Start Help Server] INFO  org.eclipse.jetty.server.Server - Started oejs.Server@9b98d84{STARTING}[12.0.15,sto=0] @494184ms
+2025-03-12 17:46:09,520 [Stop Help Server] INFO  org.eclipse.jetty.server.Server - Stopped oejs.Server@9b98d84{STOPPING}[12.0.15,sto=0]
+2025-03-12 17:46:09,527 [Stop Help Server] INFO  o.e.jetty.server.AbstractConnector - Stopped ServerConnector@55f11cea{HTTP/1.1, (http/1.1)}{127.0.0.1:0}
+2025-03-13 09:46:41,375 [Worker-1: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.
